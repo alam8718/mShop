@@ -14,7 +14,12 @@ const getSliders = () =>
 
 const getCategoryList = () =>
   axiosClient.get("/categories?populate=*").then((res) => {
-    console.log("category list", res.data.data);
+    // console.log("category list", res.data.data);
+    return res.data.data;
+  });
+const getAllProducts = () =>
+  axiosClient.get("/products?populate=*").then((res) => {
+    console.log("all products", res.data.data);
     return res.data.data;
   });
 
@@ -22,4 +27,5 @@ export default {
   getCategory,
   getSliders,
   getCategoryList,
+  getAllProducts,
 };

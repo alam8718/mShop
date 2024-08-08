@@ -22,7 +22,7 @@ function Header() {
   const getCategoryList = () => {
     GlobalApi.getCategory().then((res) => {
       setCategoryLiist(res.data.data);
-      console.log(res.data.data);
+      // console.log(res.data.data);
     });
   };
 

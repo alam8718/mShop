@@ -30,10 +30,9 @@ function Header() {
     <div className="p-3 shadow-sm flex justify-between">
       <div className="flex items-center gap-8">
         {/* website logo */}
-        <div className="w-[100px] h-[60px]">
-          <p className="text-[35px] flex items-end italic">
-            M <span className="text-[20px] font-mono not-italic">Store</span>
-          </p>
+        <div className="w-full flex justify-center items-center ">
+          <Image src="main-logo.svg" width={30} height={30} alt="icon" />
+          <p className="text-lg tracking-wider">mStore</p>
         </div>
 
         {/* category part */}

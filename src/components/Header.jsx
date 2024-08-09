@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import GlobalApi from "@/_utils/GlobalApi";
 import Image from "next/image";
+import Link from "next/link";
 
 function Header() {
   const [categoryList, setCategoryLiist] = useState([]);
@@ -30,10 +31,10 @@ function Header() {
     <div className="p-3 shadow-sm flex justify-between">
       <div className="flex items-center gap-8">
         {/* website logo */}
-        <div className="w-full flex justify-center items-center ">
+        <Link href={"/"} className="w-full flex justify-center items-center ">
           <Image src="main-logo.svg" width={30} height={30} alt="icon" />
           <p className="text-lg tracking-wider">mStore</p>
-        </div>
+        </Link>
 
         {/* category part */}
         <div className="hidden md:flex">

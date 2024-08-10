@@ -20,7 +20,10 @@ async function page({params}) {
         <TopCategoryList categoryList={getCategoryList} />
       </div>
       <div className="p-5 md:p-10">
-        <CategoryAllProducts allProducts={productList} />
+        <CategoryAllProducts
+          categoryName={decodedString}
+          allProducts={productList}
+        />
       </div>
     </div>
   );

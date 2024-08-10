@@ -1,5 +1,5 @@
 "use client";
-import {LayoutGrid, Search, ShoppingBag} from "lucide-react";
+import {CircleUserRound, LayoutGrid, Search, ShoppingBag} from "lucide-react";
 import React, {useEffect, useState} from "react";
 import {Button} from "./ui/button";
 import {
@@ -13,9 +13,13 @@ import {
 import GlobalApi from "@/_utils/GlobalApi";
 import Image from "next/image";
 import Link from "next/link";
+import {useRouter} from "next/navigation";
 
 function Header() {
+  const router = useRouter();
   const [categoryList, setCategoryLiist] = useState([]);
+  const isLogin = sessionStorage.getItem("jwt");
+
   useEffect(() => {
     getCategoryList();
   }, []);
@@ -23,8 +27,12 @@ function Header() {
   const getCategoryList = () => {
     GlobalApi.getCategory().then((res) => {
       setCategoryLiist(res.data.data);
-      // console.log(res.data.data);
     });
+  };
+
+  const handleSignOut = () => {
+    sessionStorage.clear();
+    router.push("/sign-in");
   };
 
   return (
@@ -76,7 +84,34 @@ function Header() {
         <h2 className="flex gap-2 items-center text-lg">
           <ShoppingBag />0
         </h2>
-        <Button>Login</Button>
+        {!isLogin ? (
+          <Button
+            onClick={() => {
+              router.push("/sign-in");
+            }}>
+            Login
+          </Button>
+        ) : (
+          <>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <CircleUserRound className="w-10 cursor-pointer h-10 p-2 rounded-full bg-green-200 text-primary" />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>Profile</DropdownMenuItem>
+                <DropdownMenuItem>My Orders</DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => {
+                    handleSignOut();
+                  }}>
+                  Logout
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </>
+        )}
       </div>
     </div>
   );

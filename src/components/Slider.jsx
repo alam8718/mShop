@@ -16,7 +16,7 @@ function Slider({getSlidersList}) {
           {getSlidersList.map((slider, index) => (
             <CarouselItem key={index}>
               <Image
-                className="w-full h-[200px] sm:h-[250px]  md:h-[280px] lg:h-[350px] xl:h-[420px] overflow-hidden object-cover rounded-2xl"
+                className="w-full h-[200px] sm:h-[250px]  md:h-[280px] lg:h-[350px] xl:h-[420px] overflow-hidden object-fill rounded-2xl"
                 width={1000}
                 height={400}
                 src={`${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}${slider?.attributes?.image?.data[0]?.attributes?.url}`}

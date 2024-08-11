@@ -2,6 +2,7 @@
 import GlobalApi from "@/_utils/GlobalApi";
 import {Button} from "@/components/ui/button";
 import {Input} from "@/components/ui/input";
+import {Loader2} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import {useRouter} from "next/navigation";
@@ -11,6 +12,7 @@ import {toast} from "sonner";
 function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loader, setLoader] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -20,6 +22,7 @@ function SignIn() {
   }, []);
 
   const handleSignIn = () => {
+    setLoader(false);
     GlobalApi.signInUser(email, password).then(
       (res) => {
         console.log(res.data.user);
@@ -28,9 +31,11 @@ function SignIn() {
         sessionStorage.setItem("jwt", res.data.jwt);
         toast(`Login Sucessfully`);
         router.push("/");
+        setLoader(true);
       },
       (error) => {
-        toast(`ERROR: ${error}`);
+        toast(`ERROR: ${error?.response?.data?.error?.message}`);
+        setLoader(false);
       }
     );
   };
@@ -58,7 +63,7 @@ function SignIn() {
           <Button
             disabled={!(email && password)}
             onClick={() => handleSignIn()}>
-            Login
+            {loader ? <Loader2 className="animate-spin" /> : "Login"}
           </Button>
           <Link
             href="/create-account"

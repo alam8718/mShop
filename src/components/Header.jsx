@@ -1,5 +1,10 @@
 "use client";
-import {CircleUserRound, LayoutGrid, Search, ShoppingBag} from "lucide-react";
+import {
+  CircleUserRound,
+  LayoutGrid,
+  Search,
+  ShoppingBasket,
+} from "lucide-react";
 import React, {useEffect, useState} from "react";
 import {Button} from "./ui/button";
 import {
@@ -14,15 +19,24 @@ import GlobalApi from "@/_utils/GlobalApi";
 import Image from "next/image";
 import Link from "next/link";
 import {useRouter} from "next/navigation";
+import {useGlobalContext} from "./_context/GlobalContext";
 
 function Header() {
   const router = useRouter();
   const [categoryList, setCategoryLiist] = useState([]);
-  const isLogin = sessionStorage.getItem("jwt");
+  const [totalCartItem, setTotalCartItem] = useState(0);
+  const isLogin = sessionStorage.getItem("jwt") ? true : false;
+  const jwt = sessionStorage.getItem("jwt");
+  const user = JSON.parse(sessionStorage.getItem("user"));
+  const {updateCart} = useGlobalContext();
 
   useEffect(() => {
     getCategoryList();
   }, []);
+
+  useEffect(() => {
+    totalCartItems();
+  }, [updateCart]);
 
   const getCategoryList = () => {
     GlobalApi.getCategory().then((res) => {
@@ -33,6 +47,11 @@ function Header() {
   const handleSignOut = () => {
     sessionStorage.clear();
     router.push("/sign-in");
+  };
+
+  const totalCartItems = async () => {
+    const cartItems = await GlobalApi.getCartItems(user?.id, jwt);
+    setTotalCartItem(cartItems?.length);
   };
 
   return (
@@ -82,7 +101,10 @@ function Header() {
       {/*  */}
       <div className="flex gap-5 items-center">
         <h2 className="flex gap-2 items-center text-lg">
-          <ShoppingBag />0
+          <ShoppingBasket />
+          <span className="bg-primary px-2.5 text-white rounded-full">
+            {totalCartItem}
+          </span>
         </h2>
         {!isLogin ? (
           <Button

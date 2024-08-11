@@ -2,14 +2,52 @@
 import Image from "next/image";
 import React, {useState} from "react";
 import {Button} from "./ui/button";
-import {ShoppingBasket} from "lucide-react";
+import {Loader2, ShoppingBasket} from "lucide-react";
+import {useRouter} from "next/navigation";
+import GlobalApi from "@/_utils/GlobalApi";
+import {toast} from "sonner";
+import {GlobalContext, useGlobalContext} from "./_context/GlobalContext";
 
 function ProductItemDetails({product}) {
   const [productTotalPrice, setProductTotalPrice] = useState(
     product?.attributes?.taka
   );
+  const {updateCart, setUpdateCart} = useGlobalContext();
+  const [loading, setLoading] = useState(false);
+  const [quantity, setQuantity] = useState(1);
+  const router = useRouter();
+  const jwt = sessionStorage.getItem("jwt");
+  const user = JSON.parse(sessionStorage.getItem("user"));
 
-  const [quantity, setQuantity] = useState(0);
+  const addToCart = () => {
+    if (!jwt) {
+      router.push("/sign-in");
+      setLoading(false);
+      return;
+    }
+    const data = {
+      data: {
+        quantity: quantity,
+        amount: (quantity * productTotalPrice).toFixed(2),
+        products: product?.id,
+        users_permissions_users: user?.id,
+        userId: user?.id,
+      },
+    };
+    setLoading(true);
+    GlobalApi.addToCart(data, jwt).then(
+      (res) => {
+        console.log(res);
+        toast("Item Added to Cart");
+        setUpdateCart(!updateCart);
+        setLoading(false);
+      },
+      (error) => {
+        toast(`ERROR from addToCart: ${error?.response?.data?.error?.message}`);
+        setLoading(false);
+      }
+    );
+  };
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 p-7 text-black bg-white">
@@ -53,9 +91,12 @@ function ProductItemDetails({product}) {
             </h2>
           </div>
 
-          <Button className="flex gap-3">
+          <Button
+            onClick={() => addToCart()}
+            disabled={loading}
+            className="flex gap-3">
             <ShoppingBasket />
-            Add To Cart
+            {loading ? <Loader2 className="animate-spin" /> : "Add To Cart"}
           </Button>
         </div>
         <h2 className="text-left">

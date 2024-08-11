@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetDescription,
   SheetHeader,
@@ -73,6 +74,8 @@ function Header() {
       totalCartItems();
     });
   };
+
+  const subTotal = cartItemList.reduce((acc, cur) => acc + cur?.amount, 0);
 
   return (
     <div className="p-3 shadow-sm flex justify-between">
@@ -142,6 +145,17 @@ function Header() {
                   />
                 </SheetDescription>
               </SheetHeader>
+              <SheetClose asChild>
+                <div className="absolute bottom-6 flex flex-col w-[90%]">
+                  <h2 className="text-lg font-bold flex justify-between">
+                    Subtotal <span>৳{subTotal.toFixed(2)}</span>
+                  </h2>
+                  <Button
+                    onClick={() => router.push(jwt ? "/checkout" : "/sign-in")}>
+                    Checkout
+                  </Button>
+                </div>
+              </SheetClose>
             </SheetContent>
           </Sheet>
         </div>

@@ -6,7 +6,7 @@ import {Button} from "./ui/button";
 function ShowCartItems({cartItemList, handleDeleteItem}) {
   console.log("cart iitems", cartItemList);
 
-  const subTotal = cartItemList.reduce((acc, cur) => acc + cur?.amount, 0);
+ 
 
   return (
     <div>
@@ -14,7 +14,7 @@ function ShowCartItems({cartItemList, handleDeleteItem}) {
         {cartItemList.map((item, index) => (
           <div
             key={index}
-            className="w-[clac(100%-30px)] my-2 flex items-center justify-between">
+            className="w-[clac(100%-30px)] my-2 flex items-center justify-between text-left">
             <div key={index} className="flex items-center  gap-3">
               <div className=" w-[70px] h-[70px] rounded-lg overflow-hidden border">
                 <Image
@@ -27,7 +27,7 @@ function ShowCartItems({cartItemList, handleDeleteItem}) {
               <div className="w-[calc(100%-70px)]">
                 <h2 className="font-bold line-clamp-1">{item?.name}</h2>
                 <h2 className="">Quantity: {item?.quantity}</h2>
-                <h2 className="text-md font-medium px-1">৳{item?.amount}</h2>
+                <h2 className="text-md font-medium ">৳{item?.amount}</h2>
               </div>
             </div>
             {/* delete button */}
@@ -38,12 +38,6 @@ function ShowCartItems({cartItemList, handleDeleteItem}) {
             </button>
           </div>
         ))}
-      </div>
-      <div className="absolute bottom-6 flex flex-col w-[90%]">
-        <h2 className="text-lg font-bold flex justify-between">
-          Subtotal <span>৳{subTotal.toFixed(2)}</span>
-        </h2>
-        <Button>View Cart</Button>
       </div>
     </div>
   );

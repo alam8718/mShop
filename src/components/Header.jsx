@@ -15,11 +15,22 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+
 import GlobalApi from "@/_utils/GlobalApi";
 import Image from "next/image";
 import Link from "next/link";
 import {useRouter} from "next/navigation";
 import {useGlobalContext} from "./_context/GlobalContext";
+import ShowCartItems from "./ShowCartItems";
+import {toast} from "sonner";
 
 function Header() {
   const router = useRouter();
@@ -29,6 +40,7 @@ function Header() {
   const jwt = sessionStorage.getItem("jwt");
   const user = JSON.parse(sessionStorage.getItem("user"));
   const {updateCart} = useGlobalContext();
+  const [cartItemList, setCartItemList] = useState([]);
 
   useEffect(() => {
     getCategoryList();
@@ -52,6 +64,14 @@ function Header() {
   const totalCartItems = async () => {
     const cartItems = await GlobalApi.getCartItems(user?.id, jwt);
     setTotalCartItem(cartItems?.length);
+    setCartItemList(cartItems);
+  };
+
+  const handleDeleteItem = (id) => {
+    GlobalApi.deleteCartIItem(id, jwt).then((res) => {
+      toast("Item removed Successfully");
+      totalCartItems();
+    });
   };
 
   return (
@@ -100,12 +120,31 @@ function Header() {
       </div>
       {/*  */}
       <div className="flex gap-5 items-center">
-        <h2 className="flex gap-2 items-center text-lg">
-          <ShoppingBasket />
-          <span className="bg-primary px-2.5 text-white rounded-full">
-            {totalCartItem}
-          </span>
-        </h2>
+        <div className="cursor-pointer">
+          <Sheet>
+            <SheetTrigger asChild>
+              <h2 className="flex gap-2 items-center text-lg">
+                <ShoppingBasket />
+                <span className="bg-primary px-2.5 text-white rounded-full">
+                  {totalCartItem}
+                </span>
+              </h2>
+            </SheetTrigger>
+            <SheetContent>
+              <SheetHeader>
+                <SheetTitle className="my-5 p-2 text-white bg-primary font-bold rounded-lg">
+                  My Cart
+                </SheetTitle>
+                <SheetDescription>
+                  <ShowCartItems
+                    cartItemList={cartItemList}
+                    handleDeleteItem={handleDeleteItem}
+                  />
+                </SheetDescription>
+              </SheetHeader>
+            </SheetContent>
+          </Sheet>
+        </div>
         {!isLogin ? (
           <Button
             onClick={() => {

@@ -62,8 +62,27 @@ const getCartItems = (userId, jwt) =>
       },
     })
     .then((res) => {
-      return res.data.data;
+      console.log(res.data.data);
+      const data = res.data.data;
+      const cartItemList = data.map((item, index) => {
+        return {
+          id: item?.id,
+          name: item?.attributes?.products?.data[0]?.attributes?.name,
+          amount: item?.attributes?.amount,
+          quantity: item?.attributes?.quantity,
+          image: item?.attributes?.products?.data[0]?.attributes?.productImage,
+          actualPrice: item?.attributes?.products?.data[0]?.attributes?.taka,
+        };
+      });
+      return cartItemList;
     });
+
+const deleteCartIItem = (id, jwt) =>
+  axiosClient.delete("/user-carts/" + id, {
+    headers: {
+      Authorization: "Bearer" + jwt,
+    },
+  });
 
 export default {
   getCategory,
@@ -75,4 +94,5 @@ export default {
   signInUser,
   addToCart,
   getCartItems,
+  deleteCartIItem,
 };

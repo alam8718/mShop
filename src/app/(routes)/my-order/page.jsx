@@ -41,7 +41,7 @@ function MyOrder() {
             {orderList.map((item, index) => (
               <Collapsible key={index}>
                 <CollapsibleTrigger>
-                  <div className="border p-2 bg-slate-100 flex gap-5 md:gap-24">
+                  <div className="w-full sm:min-w-[550px]  border p-2 bg-slate-100 flex gap-5 justify-between">
                     <h2>
                       <span className="font-bold">Order Date: </span>
                       {moment(item?.createdAt).format("DD/MMM/YYYY")}
@@ -51,7 +51,8 @@ function MyOrder() {
                       {`৳${item?.totalOrderAmount}`}
                     </h2>
                     <h2>
-                      <span className="font-bold ">Status: </span>Pending
+                      <span className="font-bold ">Status: </span>
+                      {item?.status}
                     </h2>
                   </div>
                 </CollapsibleTrigger>

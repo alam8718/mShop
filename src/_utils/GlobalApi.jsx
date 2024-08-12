@@ -1,5 +1,4 @@
 const {default: axios} = require("axios");
-import {loadStripe} from "@stripe/stripe-js";
 
 const axiosClient = axios.create({
   baseURL: "http://localhost:3333/api",
@@ -93,6 +92,8 @@ const createOrder = (data, jwt) =>
     },
   });
 
+const getMyOrders = (userId, jwt) => {};
+
 export default {
   getCategory,
   getSliders,
@@ -105,4 +106,5 @@ export default {
   getCartItems,
   deleteCartIItem,
   createOrder,
+  getMyOrders,
 };

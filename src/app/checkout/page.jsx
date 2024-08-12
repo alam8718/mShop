@@ -57,8 +57,12 @@ function CheckoutPage() {
     };
 
     GlobalApi.createOrder(payload, jwt).then((res) => {
-      console.log("create order res", res);
+      // console.log("create order res", res);
       toast("Order Placed Successfully!!!");
+      cartItemList.forEach((item, index) => {
+        GlobalApi.deleteCartIItem(item?.id).then(() => {});
+      });
+      router.push("/success");
     });
   };
 

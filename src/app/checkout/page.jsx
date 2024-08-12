@@ -7,6 +7,7 @@ import {ArrowBigRight} from "lucide-react";
 import {useRouter} from "next/navigation";
 
 import {useEffect, useState} from "react";
+import {toast} from "sonner";
 
 function CheckoutPage() {
   const {updateCart} = useGlobalContext();
@@ -36,6 +37,29 @@ function CheckoutPage() {
     const cartItems = await GlobalApi.getCartItems(user?.id, jwt);
     setTotalCartItem(cartItems?.length);
     setCartItemList(cartItems);
+  };
+
+  const onCheckout = () => {
+    const payload = {
+      data: {
+        paymentId: Math.floor(10000000 + Math.random() * 90000000).toString(),
+        totalOrderAmount: (subTotal + subTotal * 0.09 + deliveryCharge).toFixed(
+          2
+        ),
+        username: name,
+        email,
+        phone,
+        zip: zipCode,
+        address,
+        orderItemList: cartItemList,
+        userId: user?.id,
+      },
+    };
+
+    GlobalApi.createOrder(payload, jwt).then((res) => {
+      console.log("create order res", res);
+      toast("Order Placed Successfully!!!");
+    });
   };
 
   return (
@@ -91,12 +115,16 @@ function CheckoutPage() {
             </h2>
             <hr />
             <h2 className="flex justify-between font-bold">
-              Total :{" "}
+              Total :
               <span>
                 ৳{(subTotal + subTotal * 0.09 + deliveryCharge).toFixed(2)}
               </span>
             </h2>
-            <Button>
+            <Button
+              disabled={
+                name && email && phone && address && zipCode ? false : true
+              }
+              onClick={() => onCheckout()}>
               Payment
               <ArrowBigRight />
             </Button>

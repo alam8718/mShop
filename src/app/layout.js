@@ -12,7 +12,7 @@ const outfit = Outfit({ subsets: ["latin"] });
 
 export default function RootLayout({ children }) {
   const params = usePathname();
-  const showHeader = params === "/sign-in" || params === "/create-account" ? true : false
+  const showHeader = params === "/sign-in" || params === "/create-account" || params === "/success" || params === "/cancel" ? true : false
 
   return (
     <html lang="en">

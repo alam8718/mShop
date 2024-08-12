@@ -1,4 +1,5 @@
 const {default: axios} = require("axios");
+import {loadStripe} from "@stripe/stripe-js";
 
 const axiosClient = axios.create({
   baseURL: "http://localhost:3333/api",
@@ -72,6 +73,7 @@ const getCartItems = (userId, jwt) =>
           quantity: item?.attributes?.quantity,
           image: item?.attributes?.products?.data[0]?.attributes?.productImage,
           actualPrice: item?.attributes?.products?.data[0]?.attributes?.taka,
+          product: item?.attributes?.products?.data[0]?.id,
         };
       });
       return cartItemList;
@@ -79,6 +81,13 @@ const getCartItems = (userId, jwt) =>
 
 const deleteCartIItem = (id, jwt) =>
   axiosClient.delete("/user-carts/" + id, {
+    headers: {
+      Authorization: "Bearer" + jwt,
+    },
+  });
+
+const createOrder = (data, jwt) =>
+  axiosClient.post("/orders", data, {
     headers: {
       Authorization: "Bearer" + jwt,
     },
@@ -95,4 +104,5 @@ export default {
   addToCart,
   getCartItems,
   deleteCartIItem,
+  createOrder,
 };

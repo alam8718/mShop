@@ -62,9 +62,9 @@ const getCartItems = (userId, jwt) =>
       },
     })
     .then((res) => {
-      console.log(res.data.data);
+      console.log("get cart item ", res.data.data);
       const data = res.data.data;
-      const cartItemList = data.map((item, index) => {
+      const cartItemList = data.map((item) => {
         return {
           id: item?.id,
           name: item?.attributes?.products?.data[0]?.attributes?.name,
@@ -73,6 +73,7 @@ const getCartItems = (userId, jwt) =>
           image: item?.attributes?.products?.data[0]?.attributes?.productImage,
           actualPrice: item?.attributes?.products?.data[0]?.attributes?.taka,
           product: item?.attributes?.products?.data[0]?.id,
+          price: item?.attributes?.amount,
         };
       });
       return cartItemList;
@@ -92,7 +93,22 @@ const createOrder = (data, jwt) =>
     },
   });
 
-const getMyOrders = (userId, jwt) => {};
+const getMyOrders = (userId, jwt) =>
+  axiosClient
+    .get(
+      `/orders?filters[userId][$eq]=${userId}&populate[orderItemList][populate][product][populate][images]=url`
+    )
+    .then((res) => {
+      const data = res.data.data;
+      const orderList = data?.map((item) => ({
+        id: item?.id,
+        totalOrderAmount: item?.attributes?.totalOrderAmount,
+        paymentId: item?.attributes?.paymentId,
+        orderItemList: item?.attributes?.orderItemList,
+        createdAt: item?.attributes?.createdAt,
+      }));
+      return orderList;
+    });
 
 export default {
   getCategory,

@@ -64,7 +64,7 @@ const getCartItems = (userId, jwt) =>
     .then((res) => {
       console.log("get cart item ", res.data.data);
       const data = res.data.data;
-      const cartItemList = data.map((item) => {
+      const cartItemList = data?.map((item) => {
         return {
           id: item?.id,
           name: item?.attributes?.products?.data[0]?.attributes?.name,

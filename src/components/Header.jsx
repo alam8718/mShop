@@ -99,7 +99,7 @@ function Header() {
               <DropdownMenuLabel>Browse Category</DropdownMenuLabel>
               <DropdownMenuSeparator />
               {categoryList.map((cat, index) => (
-                <Link href={`/products-category/${cat?.attributes?.name}`}>
+                <Link key={index} href={`/products-category/${cat?.attributes?.name}`}>
                   <DropdownMenuItem
                     key={index}
                     className="flex items-center gap-2 cursor-pointer hover:bg-gray-300">

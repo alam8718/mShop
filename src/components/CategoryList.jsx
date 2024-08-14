@@ -18,7 +18,7 @@ function CategoryList({categoryList}) {
               className="group-hover:scale-125 transition-all ease-in-out"
               width={50}
               height={50}
-              src={`${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}${cat?.attributes?.icon?.data[0]?.attributes?.url}`}
+              src={`${cat?.attributes?.icon}`}
               unoptimized={true}
               alt="category icon"
             />

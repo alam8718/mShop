@@ -37,7 +37,6 @@ function Header() {
   const router = useRouter();
   const [categoryList, setCategoryLiist] = useState([]);
   const [totalCartItem, setTotalCartItem] = useState(0);
-  const isLogin = sessionStorage.getItem("jwt") ? true : false;
   const jwt = sessionStorage.getItem("jwt");
   const user = JSON.parse(sessionStorage.getItem("user"));
   const {updateCart} = useGlobalContext();
@@ -48,7 +47,9 @@ function Header() {
   }, []);
 
   useEffect(() => {
-    totalCartItems();
+    if (jwt) {
+      totalCartItems();
+    }
   }, [updateCart]);
 
   const getCategoryList = () => {
@@ -99,12 +100,14 @@ function Header() {
               <DropdownMenuLabel>Browse Category</DropdownMenuLabel>
               <DropdownMenuSeparator />
               {categoryList.map((cat, index) => (
-                <Link key={index} href={`/products-category/${cat?.attributes?.name}`}>
+                <Link
+                  key={index}
+                  href={`/products-category/${cat?.attributes?.name}`}>
                   <DropdownMenuItem
                     key={index}
                     className="flex items-center gap-2 cursor-pointer hover:bg-gray-300">
                     <Image
-                      src={`${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}${cat?.attributes?.icon?.data[0]?.attributes?.url}`}
+                      src={`${cat?.attributes?.icon}`}
                       width={23}
                       height={23}
                       alt="icon"
@@ -161,7 +164,7 @@ function Header() {
             </SheetContent>
           </Sheet>
         </div>
-        {!isLogin ? (
+        {!jwt ? (
           <Button
             onClick={() => {
               router.push("/sign-in");

@@ -1,7 +1,6 @@
 import {TrashIcon} from "lucide-react";
 import Image from "next/image";
 import React from "react";
-import {Button} from "./ui/button";
 
 function ShowCartItems({cartItemList, handleDeleteItem}) {
   console.log("cart iitems", cartItemList);

@@ -11,6 +11,7 @@ import Image from "next/image";
 function Slider({getSlidersList}) {
   return (
     <div className="w-full flex justify-center">
+     
       <Carousel className="md:w-[calc(100%-100px)]">
         <CarouselContent>
           {getSlidersList.map((slider, index) => (
@@ -19,7 +20,7 @@ function Slider({getSlidersList}) {
                 className="w-full h-[200px] sm:h-[250px]  md:h-[280px] lg:h-[350px] xl:h-[420px] overflow-hidden object-fill rounded-2xl"
                 width={1000}
                 height={400}
-                src={`${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}${slider?.attributes?.image?.data[0]?.attributes?.url}`}
+                src={`${slider?.attributes?.image}`}
                 unoptimized={true}
                 alt="slider image"
               />

@@ -25,8 +25,8 @@ function SignIn() {
     setLoader(false);
     GlobalApi.signInUser(email, password).then(
       (res) => {
-        console.log(res.data.user);
-        console.log(res.data.jwt);
+        // console.log(res.data.user);
+        // console.log(res.data.jwt);
         sessionStorage.setItem("user", JSON.stringify(res.data.user));
         sessionStorage.setItem("jwt", res.data.jwt);
         toast(`Login Sucessfully`);

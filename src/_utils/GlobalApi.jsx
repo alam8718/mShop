@@ -14,13 +14,13 @@ const getSliders = () =>
 
 const getCategoryList = () =>
   axiosClient.get("/categories?populate=*").then((res) => {
-    // console.log("category list", res.data.data);
+    console.log("category list", res.data.data);
     return res.data.data;
   });
 
 const getAllProducts = () =>
   axiosClient.get("/products?populate=*").then((res) => {
-    console.log("all products", res.data.data);
+    // console.log("all products", res.data.data);
     return res.data.data;
   });
 
@@ -29,7 +29,7 @@ const getProductsByCategory = (category) => {
   const url = `/products?filters[categories][name][$eq]=${encodedCategory}&populate=*`;
 
   return axiosClient.get(url).then((res) => {
-    console.log("all products of specific category", res.data.data);
+    // console.log("all products of specific category", res.data.data);
     return res.data.data;
   });
 };
@@ -62,7 +62,7 @@ const getCartItems = (userId, jwt) =>
       },
     })
     .then((res) => {
-      console.log("get cart item ", res.data.data);
+      // console.log("get cart item ", res.data.data);
       const data = res.data.data;
       const cartItemList = data?.map((item) => {
         return {

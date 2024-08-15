@@ -68,7 +68,7 @@ function SignIn() {
           <Link
             href="/create-account"
             className="hover:underline hover:text-blue-600">
-            Don't have an Account?
+            Don&apos;t have an Account?
           </Link>
         </div>
       </div>

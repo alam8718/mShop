@@ -14,9 +14,10 @@ function SignIn() {
   const [password, setPassword] = useState("");
   const [loader, setLoader] = useState(false);
   const router = useRouter();
+  const jwt = sessionStorage.getItem("jwt");
 
   useEffect(() => {
-    if (sessionStorage.getItem("jwt")) {
+    if (jwt) {
       router.push("/");
     }
   }, []);

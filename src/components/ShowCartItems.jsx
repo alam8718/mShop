@@ -3,9 +3,7 @@ import Image from "next/image";
 import React from "react";
 
 function ShowCartItems({cartItemList, handleDeleteItem}) {
-  console.log("cart iitems", cartItemList);
-
- 
+  // console.log("cart iitems", cartItemList);
 
   return (
     <div>

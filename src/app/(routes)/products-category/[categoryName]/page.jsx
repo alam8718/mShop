@@ -1,7 +1,7 @@
+
 import GlobalApi from "@/_utils/GlobalApi";
 import React from "react";
 import TopCategoryList from "./_components/TopCategoryList";
-import ProductList from "@/components/ProductList";
 import CategoryAllProducts from "./_components/CategoryAllProducts";
 
 async function page({params}) {

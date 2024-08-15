@@ -14,7 +14,7 @@ const getSliders = () =>
 
 const getCategoryList = () =>
   axiosClient.get("/categories?populate=*").then((res) => {
-    console.log("category list", res.data.data);
+    // console.log("category list", res.data.data);
     return res.data.data;
   });
 

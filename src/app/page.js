@@ -1,3 +1,4 @@
+
 import GlobalApi from "@/_utils/GlobalApi";
 import CategoryList from "@/components/CategoryList";
 import Footer from "@/components/Footer";

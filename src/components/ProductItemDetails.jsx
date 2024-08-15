@@ -37,7 +37,7 @@ function ProductItemDetails({product}) {
     setLoading(true);
     GlobalApi.addToCart(data, jwt).then(
       (res) => {
-        console.log(res);
+        // console.log(res);
         toast("Item Added to Cart");
         setUpdateCart(!updateCart);
         setLoading(false);
